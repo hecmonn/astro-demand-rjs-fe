@@ -6,6 +6,8 @@
     "dateformat": "^3.0.3",
     "firebase": "^5.7.0",
     "google-map-react": "^1.1.1",
+    "moment": "^2.22.2",
+    "rc-datetime-picker": "^1.6.1",
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.3",
