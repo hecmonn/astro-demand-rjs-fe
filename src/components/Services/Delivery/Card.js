@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {FormControl,Checkbox} from 'react-bootstrap';
+import {FormControl,Checkbox,Radio} from 'react-bootstrap';
 import DateTimePicker from 'rc-datetime-picker';
 import moment from 'moment';
 
@@ -70,6 +70,16 @@ class Card extends React.Component {
             </div>
         )
     }
+    page4=(
+        <div style={{fontSize:'0.5em'}}>
+            <p>En 15 minutos llegará tu Astro a <b>calle 142 #11 -79</b> y hará tu envío hasta <b>calle 55 sur #24 c 85</b></p>
+            <p>Tu servicio costará <b>30 MXN</b></p>
+            <hr/>
+            <p><b>¿Cómo te gustaría pagar?</b></p>
+            <Radio>En efectivo</Radio>
+            <Radio>Con mi tarjeta guardada</Radio>
+        </div>
+    )
     render () {
         const {page}=this.props;
             {switch (page) {
@@ -79,6 +89,8 @@ class Card extends React.Component {
                     return this.page2;
                 case 3:
                     return this.page3();
+                case 4:
+                    return this.page4;
                 default: return 0;
 
             }}

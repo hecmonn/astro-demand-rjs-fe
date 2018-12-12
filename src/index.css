@@ -22,6 +22,12 @@ code {
     height: 100vh;
 }
 
+.alignedhv {
+    display:'flex';
+    justify-content: 'center';
+    align-items: 'center';
+}
+
 /*ANIMATIONS*/
 
 /* appear - on page load */
