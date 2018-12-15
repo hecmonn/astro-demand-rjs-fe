@@ -11,6 +11,8 @@
     "react": "^16.6.3",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.3",
+    "react-google-maps-loader": "^4.2.3",
+    "react-google-places-suggest": "^3.5.0",
     "react-icons": "^3.2.2",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
