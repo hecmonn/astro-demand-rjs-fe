@@ -6,7 +6,7 @@ import {createDelivery} from '../../../actions/orders';
 import ReactGoogleMapLoader from 'react-google-maps-loader';
 import ReactGooglePlacesSuggest from 'react-google-places-suggest';
 import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button} from 'react-bootstrap';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 import {Redirect} from 'react-router-dom';
 
 class Delivery extends React.Component {
@@ -15,6 +15,7 @@ class Delivery extends React.Component {
         this.state={
             loading:false,
             order:{
+                type:'pd',
                 pickUp:{
                     place: '',
                     instructions:'',
@@ -40,7 +41,6 @@ class Delivery extends React.Component {
             deliveryPoints[e.target.dataset.id][e.target.name] = e.target.value;
             this.setState({ order:{...prevOrder,delivery:deliveryPoints}});
         } else {
-            console.log('here right...');
             this.setState({ order:{...prevOrder,pickUp:{...prevOrder.pickUp, [e.target.name]: e.target.value}}});
         }
     }
@@ -51,14 +51,13 @@ class Delivery extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-        // const {point_a,point_b}=this.state;
-        const {userId,email}=this.props.auth;
         this.setState({loading:true});
-        this.props.createDelivery({...this.state,userId,email})
-        .then(r=>{
-            this.setState({loading:false,redirect:true});
-        })
-        .catch(err=>console.log('Err delivery: ',err));
+        const {order}=this.state;
+        const {userId,email}=this.props.auth;
+        let orderKey=this.props.createDelivery({order,userId,email});
+        this.setState({loading:false,redirect:true,orderKey});
+        // })
+        // .catch(err=>console.log('Err delivery: ',err));
     }
 
     addPoint=()=>{
@@ -87,9 +86,8 @@ class Delivery extends React.Component {
         this.setState({point_b: pred.formatted_address});
     }
     render () {
-        const {loading,redirect,order}=this.state;
+        const {loading,redirect,order,orderKey}=this.state;
         const {pickUp,delivery}=order;
-        console.log('orderState: ',order);
         return(
             <div>
                 {!redirect?
@@ -298,7 +296,7 @@ class Delivery extends React.Component {
                                 </Grid>
                     </div>
                     :
-                    <Redirect to={{pathname:'/tracking',state:{}}} />
+                    <Redirect to={{pathname:{`/tracking/${orderKey}`},state:{}}} />
                 }
             </div>
         )

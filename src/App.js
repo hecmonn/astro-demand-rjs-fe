@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter,Route} from 'react-router-dom';
 import {createStore,compose,applyMiddleware} from 'redux';

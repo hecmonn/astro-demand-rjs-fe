@@ -1,13 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Grid,Col,Row,Button} from 'react-bootstrap';
-import {FaTruck} from 'react-icons/fa';
+import {Button} from 'react-bootstrap';
+// import {FaTruck} from 'react-icons/fa';
 import firebase from 'firebase';
 import {firebaseConfig} from '../../config';
 import {getUser} from '../../actions/auth';
 import Nav from '../Nav';
 import {Link} from 'react-router-dom';
+import OrderIndicator from './Orders/Indicator';
+
 class Home extends React.Component {
     constructor(props){
         super(props);
@@ -44,6 +46,7 @@ class Home extends React.Component {
                         <Nav />
                     </div>
                     <div className='home-body' style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
+                        <OrderIndicator />
                         <div className='landing' className='fs' style={{textAlign:'center',backgroundColor:'blue',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',padding: 20,color:'white'}}>
                             <p style={{fontSize:'3em'}}>La solución para todas las tareas de Back-office <b>que te consumen tiempo</b></p>
                         </div>

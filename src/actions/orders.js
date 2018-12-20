@@ -5,25 +5,35 @@ export function createDelivery(data){
         const rootRef=firebase.database().ref();
         const ordersRef=rootRef.child('orders');
         const today=new Date();
-        const {point_a,point_b,contact_name,contact_phone,required_time,scheduled,deliver_ts,comments,email,userId}=data;
+        const {order,userId,email}=data;
+        console.log('order: ',order);
         const orderCreation=ordersRef.push({
-            type: 'pd',
-            created_ts: today,
-            point_a,
-            point_b,
-            contact_name,
-            contact_phone,
-            required_time,
-            scheduled,
-            deliver_ts,
-            comments,
-            [userId]: email
+            ...order,
+            created_date: today,
+            [userId]: email,
+            taken: 0
         });
         const orderKey=orderCreation.key;
-        const ordersMappingRef=rootRef.child(`ordersMapping/${orderKey}`);
-        const orderMappingCreate=ordersMappingRef.set({
-            customer: userId[0]
+        // Astro assignation logic
+            // we will manually assign for now
+        // const astros=rootRef.child('astros');
+        // const astroAssign=astros.once('value',snap=>{
+        //     const astroId=snap.val();
+        // })
+        // .then(r=>{
+        //     const ordersReqsRef=rootRef.child(`orderesRequests/${orderKey}_${r.id}`);
+        //     // const orderReqsCreate=ordersReqsRef.set({
+        //     //     customer: userId[0]
+        //     // });
+        //     return ordersReqsRef;
+        // });
+        const ordersReqsRef=rootRef.child(`ordersRequests/${orderKey}`);
+        const orderReqsCreate=ordersReqsRef.set({
+            customer: userId[0],
+            taken: 0
         });
-        return orderMappingCreate;
+        return orderKey;
+
+
     }
 };
