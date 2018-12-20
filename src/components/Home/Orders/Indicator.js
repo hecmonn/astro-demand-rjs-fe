@@ -9,7 +9,8 @@ class Indicator extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            order:{}
+            order:{},
+            orderId:0
         };
         this.db=firebase.database().ref();
     }
@@ -18,15 +19,17 @@ class Indicator extends React.Component {
         const orderRef=this.db.child('ordersRequests').orderByChild('customer').equalTo('hecmonn');
         orderRef.on('value',snap=>{
             let order=snap.val();
-            this.setState({order});
+            let orderId=!isEmpty(order) && String(Object.keys(order).pop());
+            this.setState({orderId,order});
         });
     }
     render () {
-        const {order}=this.state;
-        console.log('order indicator: ',order);
-        let parsedOrder=JSON.stringify(order);
+        const {orderId,order}=this.state;
+        // let orderId=1;
+        // let orderId=String(Object.keys(order)).pop();
+        console.log('orderId Indicator: ',orderId);
         return (
-            <Link to={`orders/${parsedOrder}`}>
+            <Link to={{pathname:`/tracking/${orderId}`,state:{order}}}>
                 <div style={{backgroundColor:'yellow'}}>
                     {!isEmpty(order) &&
                         <Col xs={12} sm={12} md={12} lg={12}>

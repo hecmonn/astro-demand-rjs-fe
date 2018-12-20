@@ -11,7 +11,7 @@ export function createDelivery(data){
             ...order,
             created_date: today,
             [userId]: email,
-            taken: 0
+            _status: 0
         });
         const orderKey=orderCreation.key;
         // Astro assignation logic

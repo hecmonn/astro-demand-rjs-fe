@@ -8,7 +8,7 @@ class NavigationBar extends React.Component {
             <Navbar collapseOnSelect style={{backgroundColor:'transparent',border:0}}>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="#brand">ASTRO</a>
+                        <Link to='/'>Astro Demand</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

@@ -19,16 +19,16 @@ class Orders extends React.Component {
                 delivery:[],
                 _status:0
             },
-            currentTask: 1
+            currentTask: 0
         };
         this.db=firebase.database().ref();
     }
     componentWillMount() {
         let  {order}=this.props.match.params;
+        console.log('props match: ',this.props)
         let parsedOrder=JSON.parse(order);
         const orderId=String(Object.keys(parsedOrder).pop());
         const ordersRef=this.db.child(`orders/${orderId}`);
-        console.log('ordersRef: ',ordersRef);
         ordersRef.on('value',snap=>{
             let order=snap.val();
             this.setState({orderDetails:order})

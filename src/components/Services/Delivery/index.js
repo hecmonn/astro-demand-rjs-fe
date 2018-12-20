@@ -6,7 +6,6 @@ import {createDelivery} from '../../../actions/orders';
 import ReactGoogleMapLoader from 'react-google-maps-loader';
 import ReactGooglePlacesSuggest from 'react-google-places-suggest';
 import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button} from 'react-bootstrap';
-// import firebase from 'firebase';
 import {Redirect} from 'react-router-dom';
 
 class Delivery extends React.Component {
@@ -20,7 +19,8 @@ class Delivery extends React.Component {
                     place: '',
                     instructions:'',
                     contactName:'',
-                    contactPhone:''
+                    contactPhone:'',
+                    _status:0
                 },
                 delivery:[{
                     place: '',
@@ -296,7 +296,7 @@ class Delivery extends React.Component {
                                 </Grid>
                     </div>
                     :
-                    <Redirect to={{pathname:{`/tracking/${orderKey}`},state:{}}} />
+                    <Redirect to={{pathname:`/tracking/${orderKey}`,state:{orderKey}}} />
                 }
             </div>
         )

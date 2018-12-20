@@ -14,7 +14,8 @@ class Orders extends React.Component {
                     place:'',
                     contactName:'',
                     contactPhone:'',
-                    instructions:''
+                    instructions:'',
+                    _status: 0
                 },
                 delivery:[],
                 _status:0
@@ -25,10 +26,10 @@ class Orders extends React.Component {
     }
     componentWillMount() {
         let  {order}=this.props.match.params;
-        let parsedOrder=JSON.parse(order);
-        const orderId=String(Object.keys(parsedOrder).pop());
-        const ordersRef=this.db.child(`orders/${orderId}`);
-        console.log('ordersRef: ',ordersRef);
+        console.log('match props: ',this.props.match.params);
+        // let parsedOrder=JSON.parse(order);
+        // const orderId=String(Object.keys(parsedOrder).pop());
+        const ordersRef=this.db.child(`orders/${order}`);
         ordersRef.on('value',snap=>{
             let order=snap.val();
             this.setState({orderDetails:order})
