@@ -1,20 +1,21 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Button} from 'react-bootstrap';
-// import {FaTruck} from 'react-icons/fa';
+import {Grid,Col,Row,Carousel} from 'react-bootstrap';
+import {FaTruck} from 'react-icons/fa';
 import firebase from 'firebase';
 import {firebaseConfig} from '../../config';
 import {getUser} from '../../actions/auth';
 import Nav from '../Nav';
-import {Link} from 'react-router-dom';
-import OrderIndicator from './Orders/Indicator';
+import {Link,Redirect} from 'react-router-dom';
+import Scheduler from './Orders/Scheduler';
 
 class Home extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            user: 1
+            user: 1,
+            redirect: false,
         };
     }
     componentWillMount() {
@@ -27,6 +28,7 @@ class Home extends React.Component {
             })
         } else {
             console.log('Not logged...');
+            this.setState({redirect:true});
         }
     }
 
@@ -39,69 +41,66 @@ class Home extends React.Component {
         // });
     }
     render () {
-        console.log('auth props: ',this.props.auth)
+        // console.log('auth props: ',this.props.auth);
+        const {redirect}=this.state;
         return (
-            <div className='home-holder'>
-                    <div className='home-header'>
-                        <Nav />
-                    </div>
-                    <div className='home-body' style={{display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-                        <OrderIndicator />
-                        <div className='landing' className='fs' style={{textAlign:'center',backgroundColor:'blue',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',padding: 20,color:'white'}}>
-                            <p style={{fontSize:'3em'}}>La solución para todas las tareas de Back-office <b>que te consumen tiempo</b></p>
+            <div>
+                {!redirect?
+                    <div className='home-holder'>
+                        <div className='home-header'>
+                            <Nav />
                         </div>
-                        <div className='landing' className='fs' style={{textAlign:'center',backgroundColor:'red',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',padding: 20,color:'white',height:'50vh'}}>
-                            <img alt='astro' style={{width:'20px',heigth:'50px',borderColor:'black',borderWidth:1}} />
-                            <h1>Ahorra tiempo con Astro</h1>
-                            <p style={{fontSize:'2em'}}>Dinos que quieres...</p>
-                            <Button bsStyle='primary' bsSize='large'>SOLICITAR INVITACIÓN</Button>
-                        </div>
-                        <div className='services' className='fs' style={{textAlign:'center',backgroundColor:'blue',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',padding: 20,color:'white',height:'165vh'}}>
-                            <div className='service-holder'>
-                                <div style={{width:'60vw', height:'50vh',backgroundColor:'white',color:'black'}}>
-                                    <div style={{height:'20vh',backgroundColor:'gray'}}>
-                                        <h3>image holder</h3>
-                                    </div>
-                                    <div style={{heigth:'30vh'}}>
-                                        <p style={{color:'purple',fontSize:'1.5em',fontWeight:900,padding:10}}>Pick up and delivery </p>
-                                        <p style={{fontSize:'1.2em'}}>Recogemos y lo llevamos a donde lo necesitas</p>
-                                        <Link to='/delivery'><p style={{border:0,color:'purple',fontWeight:900,pointer:'cursor',border:0}}>Solicitar</p></Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='service-holder'>
-                                <div style={{width:'60vw', height:'50vh',backgroundColor:'white',color:'black'}}>
-                                    <div style={{height:'20vh',backgroundColor:'gray'}}>
-                                        <h3>image holder</h3>
-                                    </div>
-                                    <div style={{heigth:'30vh'}}>
-                                        <h3>Shopping</h3>
-                                        <p style={{fontSize:'1.5em'}}>Te compramos lo que quieras en minutos</p>
-                                        <Button bsStyle='success' bsSize='large'>Solicitar</Button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='service-holder'>
-                                <div style={{width:'60vw', height:'50vh',backgroundColor:'white',color:'black'}}>
-                                    <div style={{height:'20vh',backgroundColor:'gray'}}>
-                                        <h3>image holder</h3>
-                                    </div>
-                                    <div style={{heigth:'30vh'}}>
-                                        <h3>Errands</h3>
-                                        <p style={{fontSize:'1.5em'}}>¿Necesitas un favor especial o apoyo en una tarea?</p>
-                                        <Button bsStyle='success' bsSize='large'>Solicitar</Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='astro-invite' className='fs' style={{textAlign:'center',backgroundColor:'red',display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',padding: 20,color:'white',height:'50vh'}}>
-                            <p style={{fontSize:'2em'}}>¿Quieres ser <b>un astro</b>?</p>
-                            <Button bsStyle='primary' bsSize='large'>SOLICITAR INVITACIÓN</Button>
-                        </div>
-                    </div>
+                        <div className='home-body'>
+                            <div className='content'>
+                                <Grid fluid={true}>
+                                    <Row className='show-grid'>
+                                        <Col xs={12} sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+                                            <div className='service-holder' >
+                                                <Scheduler auth={this.props.auth}/>
+                                            </div>
+                                        </Col>
+                                        <Col xs={12} sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+                                            <div className='service-holder' >
+                                                <div className='service-description'>
+                                                    <FaTruck size={25} className='icon-lg' />
+                                                    <h4 className='header'> Errands</h4> <br />
+                                                    <h4 className='extra'>state:  {this.state.user}</h4>
+                                                    <h4 className='extra'><Link to='/errands'>Go</Link></h4>
+                                                </div>
+                                            </div>
+                                        </Col>
 
-                    <div className='home-footer'>
+                                        <Col xs={12} sm={12} md={6} mdOffset={3} lg={6} lgOffset={3}>
+                                            <div className='service-holder' >
+                                                <div className='service-description'>
+                                                    <FaTruck size={25} />
+                                                    <h4 className='header'> Pick-up & Delievery</h4> <br />
+                                                    <h4 className='extra'><Link to='/delivery'>Go</Link></h4>
+                                                </div>
+                                            </div>
+                                        </Col>
+
+                                        <Col xs={4} sm={4} md={4}>
+                                            <h1>h4 3</h1>
+                                        </Col>
+                                    </Row>
+
+                                    <Row className='show-grid'>
+                                        <Col md={4} mdOffset={4}>
+                                            <h1>h4 2</h1>
+                                        </Col>
+
+                                        <Col md={4}>
+                                            <h1>h4 3</h1>
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                            </div>
+                        </div>
                     </div>
+                :
+                    <Redirect to='/auth' />
+                }
             </div>
         )
     }

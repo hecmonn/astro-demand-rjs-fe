@@ -1,17 +1,17 @@
 import firebase from 'firebase';
+import df from 'dateformat';
 
 export function createDelivery(data){
     return dispatch=>{
         const rootRef=firebase.database().ref();
         const ordersRef=rootRef.child('orders');
-        const today=new Date();
+        const today=df(new Date(),'yyyy-mm-dd HH:MM:ss');
         const {order,userId,email}=data;
-        console.log('order: ',order);
         const orderCreation=ordersRef.push({
-            ...order,
             created_date: today,
-            [userId]: email,
-            _status: 0
+            customer: email,
+            _status: 0,
+            ...order,
         });
         const orderKey=orderCreation.key;
         // Astro assignation logic

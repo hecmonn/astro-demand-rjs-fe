@@ -1,10 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 import {Redirect} from 'react-router-dom';
 import {getUser} from '../../actions/auth'
-import {Form,FormGroup,FormControl,ControlLabel,Button,Col,Checkbox} from 'react-bootstrap';
+import {Form,FormGroup,FormControl,ControlLabel,Button,Col,Checkbox,HelpBlock} from 'react-bootstrap';
 
 
 class Auth extends React.Component {
@@ -19,86 +19,100 @@ class Auth extends React.Component {
         };
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.auth=firebase.auth();
     }
 
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value });
+    }
+    getValidationState=()=>{
+        return null;
     }
 
     handleSubmit(e){
         e.preventDefault();
         this.setState({loading:true})
         const {email,password}=this.state;
-        const auth=firebase.auth();
-        auth.signInWithEmailAndPassword(email,password)
-        .then(r=>{
-            console.log('login res: ',r);
-            this.props.getUser(email)
+        // this.auth.setPersistence(this.auth.Auth.Persistence.SESSION)
+        // .then(r=>{
+            this.auth.signInWithEmailAndPassword(email,password)
             .then(r=>{
-                this.setState({loading:false,redirect:true})
+                console.log('login res: ',r);
+                this.props.getUser(email)
+                .then(r=>{
+                    this.setState({loading:false,redirect:true})
+                });
+            })
+            .catch(err=>{
+                this.setState({loading:false})
+                console.log('err: ',err)
             });
-        })
-        .catch(err=>{
-            this.setState({loading:false})
-            console.log('err: ',err)
-        });
+        // })
     }
 
     componentDidMount() {
-        firebase.auth().onAuthStateChanged(user=>{
-            if(user) console.log('user: ',user);
+        this.auth.onAuthStateChanged(user=>{
+            if(user) return 1;
             else console.log('no user found');
         });
     }
-
     render () {
-        const {email,password,remember,loading,redirect}=this.state;
-        return(
+        const {redirect,email,password,loading}=this.state;
+        return (
             <div>
-            {!redirect?
-                <div>
-                    <div>
-                        <h1>Login</h1>
-                    </div>
-                    <Form horizontal>
-                        <FormGroup controlId='formHorizontalEmail'>
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Email
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type='email' placeholder='Email' name='email' onChange={this.handleChange} value={email} />
-                            </Col>
-                        </FormGroup>
+                {!redirect?
+                    <Col xs={12} sm={12} md={6} lg={6} mdOffset={3} lgOffset={3}>
+                        <h1>Astro Demand Login</h1>
+                        <form>
+                            <FormGroup
+                                controlId="formBasicText"
+                                validationState={this.getValidationState()}
+                                >
+                                <ControlLabel>Correo electrónico</ControlLabel>
+                                <FormControl
+                                    type='text'
+                                    name='email'
+                                    value={email}
+                                    placeholder='Enter text'
+                                    onChange={this.handleChange}
+                                    id='email'
+                                    />
+                                <ControlLabel>Contraseña</ControlLabel>
+                                <FormControl
+                                    type='password'
+                                    name='password'
+                                    value={password}
+                                    placeholder="Enter password"
+                                    onChange={this.handleChange}
+                                    id='psswd'
+                                    />
+                                <FormControl.Feedback />
+                                <HelpBlock>Validation is based on string length.</HelpBlock>
+                            </FormGroup>
 
-                        <FormGroup controlId='formHorizontalPassword'>
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Password
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type='password' placeholder='Password' name='password' onChange={this.handleChange} value={password} />
-                            </Col>
-                        </FormGroup>
 
-                        <FormGroup>
-                            <Col smOffset={2} sm={10}>
-                                <Checkbox>Remember me</Checkbox>
-                            </Col>
-                        </FormGroup>
 
-                        <FormGroup>
-                            <Col smOffset={2} sm={10}>
-                                <Button onClick={this.handleSubmit} type='submit' disabled={loading}>Sign in</Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
-                </div>
-                :
-                <Redirect to={{pathname:'/',state:{}}} />
+                            <FormGroup>
+                                <Col sm={10}>
+                                    <Checkbox>Remember me</Checkbox>
+                                </Col>
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Col sm={6}>
+                                    <Button onClick={this.handleSubmit} type='submit' bsSize='sm' disabled={loading}>Sign in</Button>
+                                </Col>
+                            </FormGroup>
+                        </form>
+                    </Col>
+                    :
+                    <Redirect to={{pathname:'/',state:{}}} />
                 }
             </div>
         )
     }
 }
+
 
 let mapStateToProps=state=>{
     return {

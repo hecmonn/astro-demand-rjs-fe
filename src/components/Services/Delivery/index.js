@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {mapsKeys} from '../../../config';
 import {createDelivery} from '../../../actions/orders';
@@ -7,6 +7,7 @@ import ReactGoogleMapLoader from 'react-google-maps-loader';
 import ReactGooglePlacesSuggest from 'react-google-places-suggest';
 import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
+import Nav from '../../Nav';
 
 class Delivery extends React.Component {
     constructor(props){
@@ -92,7 +93,7 @@ class Delivery extends React.Component {
             <div>
                 {!redirect?
                     <div>
-                        <h1>P&D</h1>
+                        <Nav />
                             <ReactGoogleMapLoader
                                 params={{
                                     key: mapsKeys.apiKey,

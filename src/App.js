@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import {BrowserRouter,Route} from 'react-router-dom';
 import {createStore,compose,applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';

@@ -12,11 +12,20 @@ export function initAuth(){
     }
 }
 
+// export function initAuth(){
+//     return dispatch=>{
+//         firebase.auth.onAuthStateChanged(user=>{
+//             console.log('initAuth: ',user);
+//             if(user) dispatch({'SET_AUTH',data:})
+//         });
+//     }
+//
+// }
+
 export function getUser(email){
     return dispatch=>{
         const user=firebase.database().ref('users').orderByChild('email').equalTo(email);
         return user.once('value',snap=>{
-            console.log('user exists: ',snap.exists());
             let userData=snap.val();
             let userId=Object.keys(userData);
             let userInfo=Object.values(userData)[0];
