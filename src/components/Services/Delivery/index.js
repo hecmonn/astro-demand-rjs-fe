@@ -5,9 +5,11 @@ import {mapsKeys} from '../../../config';
 import {createDelivery} from '../../../actions/orders';
 import ReactGoogleMapLoader from 'react-google-maps-loader';
 import ReactGooglePlacesSuggest from 'react-google-places-suggest';
-import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button} from 'react-bootstrap';
+import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button,Checkbox} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
 import Nav from '../../Nav';
+import Datetime from 'react-datetime';
+import style from './calendar_style.css';
 
 class Delivery extends React.Component {
     constructor(props){
@@ -16,6 +18,8 @@ class Delivery extends React.Component {
             loading:false,
             order:{
                 type:'pd',
+                date: new Date(),
+                scheduled: 1,
                 pickUp:{
                     place: '',
                     instructions:'',
@@ -34,6 +38,7 @@ class Delivery extends React.Component {
         };
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.handleDateChange=this.handleDateChange.bind(this);
     }
     handleChange(e){
         let prevOrder=this.state.order;
@@ -50,6 +55,10 @@ class Delivery extends React.Component {
         // e.preventDefault();
     }
 
+    handleDateChange(date){
+        let prevOrder=this.state.order;
+        this.setState({order:{...prevOrder,date:date._d}})
+    }
     handleSubmit(e){
         e.preventDefault();
         this.setState({loading:true});
@@ -89,6 +98,8 @@ class Delivery extends React.Component {
     render () {
         const {loading,redirect,order,orderKey}=this.state;
         const {pickUp,delivery}=order;
+        console.log('scheduled: ',order.scheduled);
+        console.log('date: ',order.date);
         return(
             <div>
                 {!redirect?
@@ -207,6 +218,16 @@ class Delivery extends React.Component {
                                                                     onChange={this.handleChange}
                                                                 />
                                                             </Col>
+                                                            <Col xs={12} sm={12} md={12} lg={12}>
+                                                                <ControlLabel>¿Cuándo lo hacemos?</ControlLabel>
+                                                                <Checkbox checked={!order.scheduled} onChange={()=>this.setState({order:{...order,scheduled:!order.scheduled}})}>Ahora</Checkbox>
+                                                                {order.scheduled &&
+                                                                    <Datetime
+                                                                        onChange={this.handleDateChange}
+                                                                        value={this.state.order.date}
+                                                                    />
+                                                                }
+                                                            </Col>
                                                         </Row>
                                                         <hr/>
 
@@ -306,7 +327,7 @@ class Delivery extends React.Component {
 
 let mapStateToProps=state=>{
     return {
-        orders:state.orders,
+        orders: state.orders,
         auth: state.auth
     }
 }

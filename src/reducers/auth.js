@@ -12,7 +12,7 @@ let auth=(state=initalState,action={})=>{
     switch (action.type) {
         case 'SET_AUTH':
             const {fname,lname,company,email,phone_number,userId}=action.data;
-            localStorage.setItem('AUTH',JSON.stringify(action.data));
+            // localStorage.setItem('AUTH',JSON.stringify(action.data));
             return {
                 fname,
                 lname,
@@ -22,6 +22,8 @@ let auth=(state=initalState,action={})=>{
                 isLogged: 1,
                 userId
             };
+        case 'SET_NOT_LOGGED':
+            return null;
         default: return state;
 
     }

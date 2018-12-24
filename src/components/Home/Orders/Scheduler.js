@@ -44,7 +44,7 @@ class Scheduler extends React.Component {
     componentWillMount() {
         const {email}=this.props.auth;
         const ordersRef=this.db.child('orders').orderByChild('customer').equalTo(email);
-        console.log('auth props: ',this.props.auth);
+        // console.log('auth props sch: ',this.props.auth);
         ordersRef.on('value',snap=>{
             let orders=snap.val();
             console.log('orders: ',orders);

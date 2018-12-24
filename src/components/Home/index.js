@@ -19,17 +19,18 @@ class Home extends React.Component {
         };
     }
     componentWillMount() {
-        const localAuth=JSON.parse(localStorage.getItem('AUTH'));
-        if(localAuth!==null){
-            let {email}=localAuth;
-            this.props.getUser(email)
-            .then(r=>{
-                this.setState({loading:false})
-            })
-        } else {
-            console.log('Not logged...');
-            this.setState({redirect:true});
-        }
+        // const localAuth=JSON.parse(localStorage.getItem('AUTH'));
+        // if(localAuth!==null){
+        //     let {email}=localAuth;
+        //     this.props.getUser(email)
+        //     .then(r=>{
+        //         this.setState({loading:false})
+        //     })
+        // } else {
+        //     console.log('Not logged...');
+        //     this.setState({redirect:true});
+        // }
+        this.props.getUser();
     }
 
     componentDidMount() {
@@ -43,6 +44,7 @@ class Home extends React.Component {
     render () {
         // console.log('auth props: ',this.props.auth);
         const {redirect}=this.state;
+        console.log('auth props home: ',this.props.auth);
         return (
             <div>
                 {!redirect?

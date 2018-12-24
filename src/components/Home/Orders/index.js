@@ -26,7 +26,7 @@ class Orders extends React.Component {
     }
     componentWillMount() {
         let  {order}=this.props.match.params;
-        console.log('match props: ',this.props.match.params);
+        // console.log('match props: ',this.props.match.params);
         // let parsedOrder=JSON.parse(order);
         // const orderId=String(Object.keys(parsedOrder).pop());
         const ordersRef=this.db.child(`orders/${order}`);
