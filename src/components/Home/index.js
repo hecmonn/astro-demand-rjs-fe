@@ -81,20 +81,6 @@ class Home extends React.Component {
                                                 </div>
                                             </div>
                                         </Col>
-
-                                        <Col xs={4} sm={4} md={4}>
-                                            <h1>h4 3</h1>
-                                        </Col>
-                                    </Row>
-
-                                    <Row className='show-grid'>
-                                        <Col md={4} mdOffset={4}>
-                                            <h1>h4 2</h1>
-                                        </Col>
-
-                                        <Col md={4}>
-                                            <h1>h4 3</h1>
-                                        </Col>
                                     </Row>
                                 </Grid>
                             </div>

@@ -45,7 +45,7 @@ class Delivery extends React.Component {
         if (e.target.className.includes('deliveryPoint')) {
             let deliveryPoints = [...prevOrder.delivery];
             deliveryPoints[e.target.dataset.id][e.target.name] = e.target.value;
-            this.setState({ order:{...prevOrder,delivery:deliveryPoints}});
+            this.setState({ order:{...prevOrder,delivery:{...deliveryPoints,_status:0}}});
         } else {
             this.setState({ order:{...prevOrder,pickUp:{...prevOrder.pickUp, [e.target.name]: e.target.value}}});
         }
@@ -64,7 +64,7 @@ class Delivery extends React.Component {
         this.setState({loading:true});
         const {order}=this.state;
         const {userId,email}=this.props.auth;
-        let orderKey=this.props.createDelivery({order,userId,email});
+        let orderKey=this.props.createDelivery({order:{...order,type:'pd'},userId,email});
         this.setState({loading:false,redirect:true,orderKey});
         // })
         // .catch(err=>console.log('Err delivery: ',err));
@@ -98,8 +98,6 @@ class Delivery extends React.Component {
     render () {
         const {loading,redirect,order,orderKey}=this.state;
         const {pickUp,delivery}=order;
-        console.log('scheduled: ',order.scheduled);
-        console.log('date: ',order.date);
         return(
             <div>
                 {!redirect?
