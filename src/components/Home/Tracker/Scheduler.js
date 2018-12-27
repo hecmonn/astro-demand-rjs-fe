@@ -69,7 +69,10 @@ class Scheduler extends React.Component {
         const {onGoingOrders}=this.state;
         return(
             <div>
-                <h4>Ordenes agendadas</h4>
+                <div>
+                    <Link to='/orders' className='pull-right'>Ordenes pasadas</Link>
+                    <h4>Ordenes agendadas</h4>
+                </div>
                 {!isEmpty(onGoingOrders) ? this.onGoingOrders(): <p>No tienes ordenes agendadas...</p>}
             </div>
         )

@@ -4,8 +4,9 @@ import firebase from 'firebase';
 import {Grid,Row,Col,Button} from 'react-bootstrap';
 import isEmpty from 'is-empty';
 import  Nav from '../../Nav';
+import Map from './Map';
 
-class Orders extends React.Component {
+class Tracker extends React.Component {
     constructor(props){
         super(props);
         this.state={
@@ -20,7 +21,11 @@ class Orders extends React.Component {
                 delivery:[],
                 _status:0
             },
-            currentTask: 1
+            currentTask: 1,
+            coords:{
+                latitude:0,
+                longitude:0
+            }
         };
         this.db=firebase.database().ref();
     }
@@ -34,9 +39,14 @@ class Orders extends React.Component {
             let order=snap.val();
             this.setState({orderDetails:order})
         });
+        const astroLoc=this.db.child(`ordersScheduled/${order}/coords`);
+        astroLoc.on('value',snap=>{
+            let coords=snap.val();
+            this.setState({coords});
+        });
     }
     render () {
-        const {orderDetails,currentTask}=this.state;
+        const {orderDetails,currentTask,coords}=this.state;
         const {pickUp}=orderDetails;
         return (
             <div>
@@ -60,7 +70,7 @@ class Orders extends React.Component {
                         <Col xs={8} sm={8} md={8} lg={8}>
                             <h4 style={{fontWeight:'bold'}}>Iniciar en {pickUp.place}</h4>
                             <h4>
-                                {pickUp.instructions}
+                                {pickUp.instructions}<br />
                                 Cualquier percance comunicate con {pickUp.contactName} al {pickUp.contactPhone}
                             </h4>
                         </Col>
@@ -78,7 +88,7 @@ class Orders extends React.Component {
                                 <Col xs={8} sm={8} md={8} lg={8}>
                                     <h4 style={{fontWeight:'bold'}}>{r.place}</h4>
                                         <h4>
-                                            {r.instructions}
+                                            {r.instructions} <br />
                                             Cualquier percance comunicate con {r.contactName} al {r.contactPhone}
                                         </h4>
                                 </Col>
@@ -94,10 +104,13 @@ class Orders extends React.Component {
                         )
                     })}
                 </Grid>
+                <div>
+                    <Map coords={coords} />
+                </div>
 
             </div>
         )
     }
 }
 
-export default Orders;
+export default Tracker;

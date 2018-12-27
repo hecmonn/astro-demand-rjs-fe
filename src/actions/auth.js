@@ -4,7 +4,7 @@ export function getUser(email){
     return dispatch=>{
         const auth=firebase.auth();
         const db=firebase.database().ref();
-        auth.onAuthStateChanged(user=>{
+        return auth.onAuthStateChanged(user=>{
             if(user) {
                 let userRef=db.child('users').orderByChild('email').equalTo(user.email);
                 userRef.once('value',snap=>{
@@ -19,7 +19,7 @@ export function getUser(email){
                     dispatch({type:'SET_AUTH',data:userObj});
                 })
             } else {
-                dispatch({type:'SET_NOT_LOGGED'})
+                return dispatch({type:'SET_NOT_LOGGED'})
             }
         })
     }

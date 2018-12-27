@@ -45,7 +45,7 @@ class Delivery extends React.Component {
         if (e.target.className.includes('deliveryPoint')) {
             let deliveryPoints = [...prevOrder.delivery];
             deliveryPoints[e.target.dataset.id][e.target.name] = e.target.value;
-            this.setState({ order:{...prevOrder,delivery:{...deliveryPoints,_status:0}}});
+            this.setState({ order:{...prevOrder,delivery:deliveryPoints}});
         } else {
             this.setState({ order:{...prevOrder,pickUp:{...prevOrder.pickUp, [e.target.name]: e.target.value}}});
         }

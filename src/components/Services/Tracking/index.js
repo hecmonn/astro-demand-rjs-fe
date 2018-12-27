@@ -33,6 +33,8 @@ class Orders extends React.Component {
             let order=snap.val();
             this.setState({orderDetails:order})
         });
+
+        
     }
     render () {
         const {orderDetails,currentTask}=this.state;

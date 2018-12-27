@@ -8,7 +8,7 @@ import {firebaseConfig} from '../../config';
 import {getUser} from '../../actions/auth';
 import Nav from '../Nav';
 import {Link,Redirect} from 'react-router-dom';
-import Scheduler from './Orders/Scheduler';
+import Scheduler from './Tracker/Scheduler';
 
 class Home extends React.Component {
     constructor(props){
@@ -31,6 +31,10 @@ class Home extends React.Component {
         //     this.setState({redirect:true});
         // }
         this.props.getUser();
+        console.log('this.props.auth: ',this.props.auth)
+        if(!this.props.auth){
+            this.setState({redirect:true})
+        }
     }
 
     componentDidMount() {
