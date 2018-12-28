@@ -32,14 +32,7 @@ class NavigationBar extends React.Component {
                             <MenuItem eventKey={3.3}>Separated link</MenuItem>
                         </NavDropdown>
                     </Nav>
-                    <Nav pullRight>
-                        <NavItem eventKey={1} href="#">
-                            Link Right
-                        </NavItem>
-                        <NavItem eventKey={2} href="#">
-                            Link Right
-                        </NavItem>
-                    </Nav>
+                    
                 </Navbar.Collapse>
             </Navbar>
 

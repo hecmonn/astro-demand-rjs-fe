@@ -214,5 +214,5 @@ td.rdtYear:hover {
 }
 
 .rdtTime td {
-  cursor: default;
+  cursor: pointer;
 }

@@ -35,7 +35,7 @@ class SimpleMap extends Component {
         const {center}=this.state;
         const {latitude,longitude}=this.props.coords
         return (
-            <div style={{ height: '30vh', width: '100%' }}>
+            <div style={{ height: '80vh', width: '100%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: mapsKeys.apiKey }}
                     defaultCenter={this.props.center}

@@ -8,10 +8,12 @@ import {getUser} from '../actions/auth';
 import Nav from './Nav';
 import Register from './Auth/Register';
 import Auth from './Auth';
+import Services from './Services';
 import Errands from './Services/Errands';
 import Delivery from './Services/Delivery';
 // import Tracking from './Services/Tracking';
 import Tracker from './Home/Tracker';
+import SideBar from './Globals/SideBar';
 
 
 class App extends React.Component {
@@ -23,12 +25,15 @@ class App extends React.Component {
     render () {
         return(
             <div className="main-app">
+                <SideBar />
                 <Route exact path="/" component={Home} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/auth" component={Auth} />
                 <Route exact path="/errands" component={Errands} />
                 <Route exact path="/delivery" component={Delivery} />
                 <Route exact path="/tracking/:order" component={Tracker} />
+
+                <Route exact path="/services" component={Services} />
             </div>
         )
     }
