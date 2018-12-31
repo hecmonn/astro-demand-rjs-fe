@@ -2,13 +2,12 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {mapsKeys} from '../../../config';
-import {createDelivery} from '../../../actions/orders';
+import {createOrder} from '../../../actions/orders';
 import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button,Checkbox} from 'react-bootstrap';
 import {Redirect} from 'react-router-dom';
-import Nav from '../../Nav';
 import Datetime from 'react-datetime';
-import style from './calendar_style.css';
-import geostyle from './geosuggest.css';
+import style from '../calendar_style.css';
+import geostyle from '../geosuggest.css';
 import Geosuggest from 'react-geosuggest';
 import isEmpty from 'is-empty';
 
@@ -60,35 +59,36 @@ class Delivery extends React.Component {
         let prevOrder=this.state.order;
         this.setState({order:{...prevOrder,date:date._d}})
     }
+
     handleSubmit(e){
         e.preventDefault();
         this.setState({loading:true});
         const {order}=this.state;
         const {userId,email}=this.props.auth;
-        let orderKey=this.props.createDelivery({order:{...order,type:'pd'},userId,email});
+        let orderKey=this.props.createOrder({order:{...order,type:'pd'},userId,email});
         this.setState({loading:false,redirect:true,orderKey});
         // })
         // .catch(err=>console.log('Err delivery: ',err));
     }
 
-    addPoint=()=>{
-        let {delivery,pickUp}=this.state.order;
-        delivery.push({
-            step:delivery.length+1,
-            place: '',
-            instructions: '',
-            contactName:'',
-            contactPhone:'',
-        });
-        this.setState({order:{pickUp,delivery}});
-    }
+    // addPoint=()=>{
+    //     let {delivery,pickUp}=this.state.order;
+    //     delivery.push({
+    //         step:delivery.length+1,
+    //         place: '',
+    //         instructions: '',
+    //         contactName:'',
+    //         contactPhone:'',
+    //     });
+    //     this.setState({order:{pickUp,delivery}});
+    // }
 
-    removePoint=(step)=>{
-        let {delivery,pickUp}=this.state.order;
-        let filteredDelivery=delivery.filter(r=> step!==r.step);
-        console.log('delivery: ',filteredDelivery);
-        this.setState({order:{pickUp,delivery: filteredDelivery }})
-    }
+    // removePoint=(step)=>{
+    //     let {delivery,pickUp}=this.state.order;
+    //     let filteredDelivery=delivery.filter(r=> step!==r.step);
+    //     console.log('delivery: ',filteredDelivery);
+    //     this.setState({order:{pickUp,delivery: filteredDelivery }})
+    // }
 
     componentWillMount() {
         // const script = document.createElement('script');
@@ -267,4 +267,4 @@ let mapStateToProps=state=>{
         auth: state.auth
     }
 }
-export default connect(mapStateToProps,{createDelivery})(Delivery);
+export default connect(mapStateToProps,{createOrder})(Delivery);

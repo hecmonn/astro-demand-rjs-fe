@@ -36,7 +36,7 @@ class Services extends React.Component {
                             </div>
                             <div style={{flex:1,alignItems:'center',justifyContent:'center'}}>
                                 <h1>Cash</h1>
-                                <Link to='/delivery' style={{color:'white'}}><Button bsStyle='primary' bsSize='lg'>Solicitar</Button></Link>
+                                <Link to='/cash' style={{color:'white'}}><Button bsStyle='primary' bsSize='lg'>Solicitar</Button></Link>
                             </div>
                         </div>
                     </Col>

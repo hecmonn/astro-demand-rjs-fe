@@ -5,6 +5,8 @@ import {Grid,Row,Col,Button} from 'react-bootstrap';
 import isEmpty from 'is-empty';
 import  Nav from '../../Nav';
 import Map from './Map';
+import CashDesc from './Descriptions/CashDesc';
+import DeliveryDesc from './Descriptions/Delivery'; 
 import {FaCheckCircle} from 'react-icons/fa';
 
 class Tracker extends React.Component {
@@ -45,8 +47,18 @@ class Tracker extends React.Component {
             let order=snap.val();
             this.setState({orderDetails:order});
         });
-
     }
+    serviceDescription=()=>{
+        const {orderDetails}=this.state;
+        switch (orderDetails.type) {
+            case 'pd':
+                return <DeliveryDesc tasks={orderDetails.delivery} />;
+            case 'cash':
+                return <CashDesc task={[]} />
+            default: return null;
+        }
+    }
+
     render () {
         const {orderDetails,currentTask,coords}=this.state;
         const {pickUp}=orderDetails;
@@ -81,32 +93,10 @@ class Tracker extends React.Component {
                                     <Col xs={2} sm={2} md={2} lg={2}>
                                     </Col>
                                 </Row>
-                                {!isEmpty(orderDetails) && orderDetails.delivery.map((r,i)=>{
-                                    // if (i+2==currentTask) this.currentTaskId=r.orderId;
-                                    return (
-                                        <Row key={i} style={{paddingBottom:15}}>
-                                            <Col xs={2} sm={2} md={2} lg={2}>
-                                                <FaCheckCircle style={{color:r._status==1?'green':'gray'}} size='25'/>
-                                            </Col>
 
-                                            <Col xs={8} sm={8} md={8} lg={8}>
-                                                <h4 style={{fontWeight:'bold'}}>{r.place}</h4>
-                                                    <h4>
-                                                        {r.instructions} <br />
-                                                        Cualquier percance comunicate con {r.contactName} al {r.contactPhone}
-                                                    </h4>
-                                            </Col>
-
-                                            <Col xs={2} sm={2} md={2} lg={2}>
-                                                {i+2==r._status &&
-                                                    <Button bsStyle='default' bsSize='sm'>
-                                                        <h3>i</h3>
-                                                    </Button>
-                                                }
-                                            </Col>
-                                        </Row>
-                                    )
-                                })}
+                                <div>
+                                    {this.serviceDescription()}
+                                </div>
                             </Col>
                             <Col xs={12} md={5} >
                                 <Map coords={coords} />

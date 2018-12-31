@@ -7,7 +7,7 @@ import {objectConvertor} from '../../../lib/helpers';
 import df from 'dateformat';
 import isEmpty from 'is-empty';
 import {Link} from 'react-router-dom';
-import {FaTruck} from 'react-icons/fa';
+import {FaTruck,FaAmericanSignLanguageInterpreting} from 'react-icons/fa';
 
 class Scheduler extends React.Component {
     constructor(props){
@@ -22,26 +22,32 @@ class Scheduler extends React.Component {
         const {onGoingOrders}=this.state;
         return(
             <div>
+                <h3>Tareas agendadas</h3>
                 {onGoingOrders.map((r,i)=>{
                     let date=df(r.date,'mm/dd HH:MM');
-                    let status,type;
-                    if(r._status==0) status='No ha empezado';
-                    else if(r._status==1) status='En progreso';
+                    let status,type,icon;
+                    // if(r._status==0) status='No ha empezado';
+                    // else if(r._status==1) status='En progreso';
 
-                    if(r.type=='pd') type='Pickup & Delivery';
-                    console.log('ogo : ',r);
+                    if(r.type=='pd') {
+                        type='Pickup & Delivery';
+                        icon=<FaTruck size={25} className='icon-lg' />;
+                    }  else if (r.type=='cash'){
+                        type='Cash Pickup';
+                        icon=<FaAmericanSignLanguageInterpreting size={25} className='icon-lg' />;
+                    }
                     return (
-                        <div>
+                        <Col xs={12} key={i}>
                             <Col xs={1} sm={1} md={1} lg={1}>
                                 <br />
-                                <FaTruck size={25} className='icon-lg' />
+                                {icon}
                             </Col>
                             <Col xs={10} sm={10} md={4} lg={4}>
                                 <Link to={`/tracking/${r.key}`}><h4>{type}</h4></Link>
                                 <h4></h4>
                                 <h6 style={{color:'gray'}}>{date}</h6>
                             </Col>
-                        </div>
+                        </Col>
                     )
                 })}
             </div>
@@ -63,10 +69,7 @@ class Scheduler extends React.Component {
         const {onGoingOrders}=this.state;
         return(
             <div>
-                <div>
-                    <Link to='/orders' className='pull-right'>Ordenes pasadas</Link>
-                    <h4>Tareas programadas para hoy </h4>
-                </div>
+
                 {!isEmpty(onGoingOrders) ? this.onGoingOrders(): <p>No tienes ordenes agendadas...</p>}
             </div>
         )

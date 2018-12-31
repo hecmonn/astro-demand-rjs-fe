@@ -10,6 +10,7 @@ import Register from './Auth/Register';
 import Auth from './Auth';
 import Services from './Services';
 import Errands from './Services/Errands';
+import Cash from './Services/Cash';
 import Delivery from './Services/Delivery';
 // import Tracking from './Services/Tracking';
 import Tracker from './Home/Tracker';
@@ -29,11 +30,12 @@ class App extends React.Component {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/auth" component={Auth} />
-                <Route exact path="/errands" component={Errands} />
-                <Route exact path="/delivery" component={Delivery} />
                 <Route exact path="/tracking/:order" component={Tracker} />
 
                 <Route exact path="/services" component={Services} />
+                <Route exact path="/errands" component={Errands} />
+                <Route exact path="/delivery" component={Delivery} />
+                <Route exact path="/cash" component={Cash} />
             </div>
         )
     }

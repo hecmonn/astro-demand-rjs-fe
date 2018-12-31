@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import df from 'dateformat';
 
-export function createDelivery(data){
+export function createOrder(data){
     return dispatch=>{
         const rootRef=firebase.database().ref();
         const ordersRef=rootRef.child('orders');
