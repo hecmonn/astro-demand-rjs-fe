@@ -66,7 +66,7 @@ class Cash extends React.Component {
         const {loading,redirect,order,orderKey}=this.state;
         const {pickUp}=order;
         return(
-            <div>
+            <div style={{height:'100vh', overflow:'scroll'}}>
                 {!redirect?
                     <form>
                         <FormGroup

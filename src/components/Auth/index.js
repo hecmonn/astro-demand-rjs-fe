@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import {Redirect} from 'react-router-dom';
 import {getUser} from '../../actions/auth'
 import {Form,FormGroup,FormControl,ControlLabel,Button,Col,Checkbox,HelpBlock} from 'react-bootstrap';
-
+import isEmpty from 'is-empty';
 
 class Auth extends React.Component {
     constructor(props){
@@ -15,7 +15,8 @@ class Auth extends React.Component {
             password:'',
             remember:false,
             loading: false,
-            redirect: false
+            redirect: false,
+            err:{}
         };
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
@@ -25,6 +26,7 @@ class Auth extends React.Component {
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value });
     }
+
     getValidationState=()=>{
         return null;
     }
@@ -37,15 +39,11 @@ class Auth extends React.Component {
         // .then(r=>{
             this.auth.signInWithEmailAndPassword(email,password)
             .then(r=>{
-                console.log('login res: ',r);
                 this.props.getUser(email)
-                .then(r=>{
-                    this.setState({loading:false,redirect:true})
-                });
+                this.setState({loading:false,redirect:true})
             })
             .catch(err=>{
-                this.setState({loading:false})
-                console.log('err: ',err)
+                this.setState({loading:false,err})
             });
         // })
     }
@@ -57,7 +55,7 @@ class Auth extends React.Component {
         });
     }
     render () {
-        const {redirect,email,password,loading}=this.state;
+        const {redirect,email,password,loading,err}=this.state;
         return (
             <div>
                 {!redirect?
@@ -87,7 +85,7 @@ class Auth extends React.Component {
                                     id='psswd'
                                     />
                                 <FormControl.Feedback />
-                                <HelpBlock>Validation is based on string length.</HelpBlock>
+                                {!isEmpty(err.message) && <HelpBlock>{err.message}</HelpBlock>}
                             </FormGroup>
 
 

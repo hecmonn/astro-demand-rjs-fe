@@ -7,7 +7,7 @@ export function getUser(email){
         return auth.onAuthStateChanged(user=>{
             if(user) {
                 let userRef=db.child('users').orderByChild('email').equalTo(user.email);
-                userRef.once('value',snap=>{
+                return userRef.once('value',snap=>{
                     let userData=snap.val();
                     let userVals=Object.values(userData).pop();
                     let userId=Object.keys(userData).pop();
@@ -19,8 +19,14 @@ export function getUser(email){
                     dispatch({type:'SET_AUTH',data:userObj});
                 })
             } else {
-                return dispatch({type:'SET_NOT_LOGGED'})
+                dispatch({type:'SET_NOT_LOGGED'})
             }
         })
+    }
+}
+
+export function initAuth(data){
+    return dispatch=>{
+        return dispatch({type:'SET_AUTH',data})
     }
 }

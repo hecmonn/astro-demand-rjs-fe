@@ -71,24 +71,24 @@ class Delivery extends React.Component {
         // .catch(err=>console.log('Err delivery: ',err));
     }
 
-    // addPoint=()=>{
-    //     let {delivery,pickUp}=this.state.order;
-    //     delivery.push({
-    //         step:delivery.length+1,
-    //         place: '',
-    //         instructions: '',
-    //         contactName:'',
-    //         contactPhone:'',
-    //     });
-    //     this.setState({order:{pickUp,delivery}});
-    // }
+    addPoint=()=>{
+        let {delivery,pickUp}=this.state.order;
+        delivery.push({
+            step:delivery.length+1,
+            place: '',
+            instructions: '',
+            contactName:'',
+            contactPhone:'',
+        });
+        this.setState({order:{pickUp,delivery}});
+    }
 
-    // removePoint=(step)=>{
-    //     let {delivery,pickUp}=this.state.order;
-    //     let filteredDelivery=delivery.filter(r=> step!==r.step);
-    //     console.log('delivery: ',filteredDelivery);
-    //     this.setState({order:{pickUp,delivery: filteredDelivery }})
-    // }
+    removePoint=(step)=>{
+        let {delivery,pickUp}=this.state.order;
+        let filteredDelivery=delivery.filter(r=> step!==r.step);
+        console.log('delivery: ',filteredDelivery);
+        this.setState({order:{pickUp,delivery: filteredDelivery }})
+    }
 
     componentWillMount() {
         // const script = document.createElement('script');
@@ -100,8 +100,9 @@ class Delivery extends React.Component {
     render () {
         const {loading,redirect,order,orderKey}=this.state;
         const {pickUp,delivery}=order;
+        console.log('auth props: ',this.props.auth);
         return(
-            <div>
+            <div style={{height:'100vh',overflow:'scroll'}}>
                 {!redirect?
                     <form>
                         <FormGroup
