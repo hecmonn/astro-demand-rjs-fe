@@ -5,6 +5,7 @@ import {Grid,Row,Col,Button} from 'react-bootstrap';
 import isEmpty from 'is-empty';
 import  Nav from '../../Nav';
 import Map from './Map';
+import {FaCheckCircle} from 'react-icons/fa';
 
 class Tracker extends React.Component {
     constructor(props){
@@ -34,16 +35,17 @@ class Tracker extends React.Component {
         // console.log('match props: ',this.props.match.params);
         // let parsedOrder=JSON.parse(order);
         // const orderId=String(Object.keys(parsedOrder).pop());
-        const ordersRef=this.db.child(`orders/${order}`);
-        ordersRef.on('value',snap=>{
-            let order=snap.val();
-            this.setState({orderDetails:order})
-        });
         const astroLoc=this.db.child(`ordersScheduled/${order}/coords`);
         astroLoc.on('value',snap=>{
             let coords=snap.val();
-            this.setState({coords});
+            if (!isEmpty(coords)) this.setState({coords});
         });
+        const ordersRef=this.db.child(`orders/${order}`);
+        ordersRef.on('value',snap=>{
+            let order=snap.val();
+            this.setState({orderDetails:order});
+        });
+
     }
     render () {
         const {orderDetails,currentTask,coords}=this.state;
@@ -57,17 +59,17 @@ class Tracker extends React.Component {
                             <Col xs={12} md={6}>
                                 <Row style={{paddingBottom:15}}>
                                     <Col xs={2} sm={2} md={2} lg={2}>
-                                        <h4>{orderDetails._status}</h4>
+                                        <FaCheckCircle style={{color:orderDetails._status==1?'green':'gray'}} size='25'/>
                                     </Col>
                                     <Col xs={8} sm={8} md={8} lg={8}>
-                                        <h4 style={{fontWeight:'bold'}}>Orden tomada por AstroName</h4>
+                                        <h4 style={{fontWeight:'bold'}}>Orden tomada por {orderDetails.astroName}</h4>
                                     </Col>
                                     <Col xs={2} sm={2} md={2} lg={2}>
                                     </Col>
                                 </Row>
                                 <Row style={{paddingBottom:15}}>
                                     <Col xs={2} sm={2} md={2} lg={2}>
-                                        <h4>{pickUp._status}</h4>
+                                        <FaCheckCircle style={{color:pickUp._status==1?'green':'gray'}} size='25'/>
                                     </Col>
                                     <Col xs={8} sm={8} md={8} lg={8}>
                                         <h4 style={{fontWeight:'bold'}}>Iniciar en {pickUp.place}</h4>
@@ -84,7 +86,7 @@ class Tracker extends React.Component {
                                     return (
                                         <Row key={i} style={{paddingBottom:15}}>
                                             <Col xs={2} sm={2} md={2} lg={2}>
-                                                <h4>{r._status}</h4>
+                                                <FaCheckCircle style={{color:r._status==1?'green':'gray'}} size='25'/>
                                             </Col>
 
                                             <Col xs={8} sm={8} md={8} lg={8}>

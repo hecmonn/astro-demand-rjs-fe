@@ -3,6 +3,7 @@ import GoogleMapReact from 'google-map-react';
 import {mapsKeys} from '../../../config';
 import isEmpty from 'is-empty';
 
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
