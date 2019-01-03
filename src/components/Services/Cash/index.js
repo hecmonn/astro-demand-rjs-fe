@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {mapsKeys} from '../../../config';
 import {createOrder} from '../../../actions/orders';
@@ -22,7 +21,6 @@ class Cash extends React.Component {
                 scheduled: 1,
                 pickUp:{
                     place: '',
-                    instructions:'',
                     contactName:'',
                     contactPhone:'',
                     _status:0
@@ -57,14 +55,15 @@ class Cash extends React.Component {
         e.preventDefault();
         this.setState({loading:true});
         const {order}=this.state;
-        const {userId,email}=this.props.auth;
-        let orderKey=this.props.createOrder({order:{...order,type:'cash'},userId,email});
+        const {userId,email,company}=this.props.auth;
+        let orderKey=this.props.createOrder({order:{...order,type:'cash',company},userId,email,company});
         this.setState({loading:false,redirect:true,orderKey});
     }
 
     render () {
         const {loading,redirect,order,orderKey}=this.state;
         const {pickUp}=order;
+        console.log('cash auth props: ',this.props.auth);
         return(
             <div style={{height:'100vh', overflow:'scroll'}}>
                 {!redirect?
@@ -91,14 +90,6 @@ class Cash extends React.Component {
                                     location={new google.maps.LatLng(53.558572, 9.9278215)}
                                     radius="20"
                                 />*/}
-                                <ControlLabel>¿Qué hacemos?</ControlLabel>
-                                <FormControl
-                                    componentClass='textarea'
-                                    value={pickUp.instructions}
-                                    name='instructions'
-                                    placeholder='Dime qué hacer'
-                                    onChange={this.handleChange}
-                                />
                                 <Row>
                                     <Col xs={12} sm={6} md={6} lg={6}>
                                         <ControlLabel>Persona de contacto</ControlLabel>

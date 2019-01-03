@@ -15,7 +15,8 @@ import Delivery from './Services/Delivery';
 // import Tracking from './Services/Tracking';
 import Tracker from './Home/Tracker';
 import SideBar from './Globals/SideBar';
-
+import Orders from './Orders';
+import Confirmation from './Services/Confirmation';
 
 class App extends React.Component {
 
@@ -32,10 +33,14 @@ class App extends React.Component {
                 <Route exact path="/auth" component={Auth} />
                 <Route exact path="/tracking/:order" component={Tracker} />
 
+                <Route exact path="/orders" component={Orders} />
+
                 <Route exact path="/services" component={Services} />
                 <Route exact path="/errands" component={Errands} />
                 <Route exact path="/delivery" component={Delivery} />
                 <Route exact path="/cash" component={Cash} />
+                <Route exact path="/confirmation" component={Confirmation} />
+
             </div>
         )
     }

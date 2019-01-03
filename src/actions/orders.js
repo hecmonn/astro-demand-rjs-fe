@@ -6,9 +6,8 @@ export function createOrder(data){
         const rootRef=firebase.database().ref();
         const ordersRef=rootRef.child('orders');
         const today=df(new Date(),'yyyy-mm-dd HH:MM:ss');
-        const {order,userId,email}=data;
-        let dateMessy=order.scheduled? order.date: today;
-        console.log('type: ',order.type);
+        const {order,userId,email,company}=data;
+        let dateMessy=order.scheduled?order.date: today;
         let date=df(dateMessy,'yyyy-mm-dd HH:MM:ss');
         const orderCreation=ordersRef.push({
             created_date: today,
@@ -43,7 +42,8 @@ export function createOrder(data){
             customer: email,
             type: order.type,
             date,
-            _status:0
+            company,
+            _status:0,
         })
         return orderKey;
 

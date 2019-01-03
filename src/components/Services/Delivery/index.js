@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {mapsKeys} from '../../../config';
 import {createOrder} from '../../../actions/orders';
 import {Grid,Col,Row,ControlLabel,FormControl,FormGroup,HelpBlock,Button,Checkbox} from 'react-bootstrap';
-import {Redirect} from 'react-router-dom';
+import {Redirect,Link} from 'react-router-dom';
 import Datetime from 'react-datetime';
 import style from '../calendar_style.css';
 import geostyle from '../geosuggest.css';
@@ -16,7 +16,7 @@ class Delivery extends React.Component {
         super(props);
         this.state={
             loading:false,
-            order:{
+            order: isEmpty(this.props.location.state) ? {
                 type:'pd',
                 date: new Date(),
                 scheduled: 1,
@@ -34,7 +34,7 @@ class Delivery extends React.Component {
                     contactName:'',
                     contactPhone:'',
                 }]
-            }
+            } :this.props.location.state.order
         };
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
@@ -64,8 +64,8 @@ class Delivery extends React.Component {
         e.preventDefault();
         this.setState({loading:true});
         const {order}=this.state;
-        const {userId,email}=this.props.auth;
-        let orderKey=this.props.createOrder({order:{...order,type:'pd'},userId,email});
+        const {userId,email,company}=this.props.auth;
+        let orderKey=this.props.createOrder({order:{...order,type:'pd',company},userId,email,company});
         this.setState({loading:false,redirect:true,orderKey});
         // })
         // .catch(err=>console.log('Err delivery: ',err));
@@ -100,7 +100,7 @@ class Delivery extends React.Component {
     render () {
         const {loading,redirect,order,orderKey}=this.state;
         const {pickUp,delivery}=order;
-        console.log('auth props: ',this.props.auth);
+        console.log('location state props: ',this.props.location.state);
         return(
             <div style={{height:'100vh',overflow:'scroll'}}>
                 {!redirect?
@@ -248,7 +248,7 @@ class Delivery extends React.Component {
                                 })}
                                 <FormControl.Feedback />
                                 <HelpBlock>Validation is based on string length.</HelpBlock>
-                                <Button onClick={this.handleSubmit} type='submit'>Set Order</Button>
+                                <Button><Link to={{pathname:'/confirmation',state:{order,auth:this.props.auth}}}>Agendar orden</Link></Button>
                             </Col>
 
 

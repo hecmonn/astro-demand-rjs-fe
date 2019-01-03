@@ -47,7 +47,6 @@ class Home extends React.Component {
 
     render () {
         const {redirect}=this.state;
-        console.log('authprops:  ',this.props.auth);
         return (
             <div>
                 {!redirect?
