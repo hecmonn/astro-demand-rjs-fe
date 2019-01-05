@@ -21,7 +21,7 @@ class Confirmation extends React.Component {
         this.setState({loading:true});
         const {order}=this.props.location.state;
         const {userId,email,company}=this.props.auth;
-        let orderKey=this.props.createOrder({order:{...order,type:'pd',company},userId,email,company});
+        let orderKey=this.props.createOrder({order:{...order,company},userId,email,company});
         this.setState({loading:false,redirect:true,orderKey});
         // })
         // .catch(err=>console.log('Err delivery: ',err));
@@ -31,25 +31,41 @@ class Confirmation extends React.Component {
         const {order}=this.props.location.state;
     }
 
+    deliveryDescription=()=>{
+        const {order}=this.props.location.state;
+        return (
+            <div>
+                <h4>Tu astro recogera tu paquete en {order.pickUp.place} y los llevará a los siguientes lugares</h4>
+                <ul>
+                    {order.delivery.map(r=><li><h4>{r.place}</h4></li>)}
+                </ul>
 
+            </div>
+        )
+    }
+
+    cashDescription=()=>{
+        const {order}=this.props.location.state;
+        console.log('order type: ',order.type)
+        return (
+            <div>
+                <h4>Tu Astro irá a {order.pickUp.place}, validará el efectivo entregada y realizará un SPEI por la cantidad recibida</h4>
+            </div>
+        )
+    }
 
     render () {
-        const {order}=this.props.location.state;
         const {redirect,orderKey}=this.state;
+        const {order}=this.props.location.state;
         console.log('conf order:' ,order);
         return (
             <div>
                 {!redirect?
-
                     <div style={{height:'100vh',overflow:'scroll',display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
                         <h1>¡Gracias por utilizar Astro!</h1>
-                        <h4>Tu astro recogera tu paquete en {order.pickUp.place} y los llevará a los siguientes lugares</h4>
-                        <ul>
-                            {order.delivery.map(r=><li><h4>{r.place}</h4></li>)}
-                        </ul>
-
+                        {order.type=='delivery'?this.deliveryDescription() : this.cashDescription()}
                         <Button onClick={this.handleSubmit}>Confirmar</Button> <br/>
-                        <Link to={{pathname:'/delivery',state:{order}}}>Editar</Link>
+                        <Link to={{pathname:`/${order.type}`,state:{order}}}>Editar</Link>
                     </div>
                     :
                     <Redirect to={{pathname:`/tracking/${orderKey}`,state:{orderKey}}} />

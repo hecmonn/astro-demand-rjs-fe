@@ -23,7 +23,6 @@ class Scheduler extends React.Component {
         console.log('ogo ogo: ',onGoingOrders);
         return(
             <div>
-                <h3>Tareas agendadas</h3>
                 {onGoingOrders.map((r,i)=><ServiceCard orders={onGoingOrders} key={i}/>)}
             </div>
         )

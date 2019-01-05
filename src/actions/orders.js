@@ -50,3 +50,19 @@ export function createOrder(data){
 
     }
 };
+
+export function getSignature(data){
+   return dispatch=>{
+      const storage=firebase.storage().ref('/signatures');
+      let signRef=storage.child('/orderId/xxxx11111_custEncId_201901041736.png');
+      signRef.getDownloadURL()
+      .then(url=>{
+         fetch(url)
+         .then(data=>{
+            console.log('sign data: ',data);
+            dispatch({type:'SET_SIGNATURE',data})
+         })
+      })
+
+   }
+}

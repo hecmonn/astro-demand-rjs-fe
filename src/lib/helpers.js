@@ -13,7 +13,7 @@ export function objectConvertor(obj){
 
 export function descriptionTranslator(type){
     let description;
-    if(type=='pd') {
+    if(type=='delivery') {
         description={
             type:'Pickup & Delivery',
         };

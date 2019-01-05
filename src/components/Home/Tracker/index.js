@@ -6,107 +6,110 @@ import isEmpty from 'is-empty';
 import  Nav from '../../Nav';
 import Map from './Map';
 import CashDesc from './Descriptions/CashDesc';
-import DeliveryDesc from './Descriptions/Delivery'; 
+import DeliveryDesc from './Descriptions/Delivery';
 import {FaCheckCircle} from 'react-icons/fa';
+import {Link} from 'react-router-dom';
 
 class Tracker extends React.Component {
-    constructor(props){
-        super(props);
-        this.state={
-            orderDetails:{
-                pickUp:{
-                    place:'',
-                    contactName:'',
-                    contactPhone:'',
-                    instructions:'',
-                    _status: 0
-                },
-                delivery:[],
-                _status:0
+   constructor(props){
+      super(props);
+      this.state={
+         orderDetails:{
+            pickUp:{
+               place:'',
+               contactName:'',
+               contactPhone:'',
+               instructions:'',
+               _status: 0
             },
-            currentTask: 1,
-            coords:{
-                latitude:0,
-                longitude:0
-            }
-        };
-        this.db=firebase.database().ref();
-    }
-    componentWillMount() {
-        let  {order}=this.props.match.params;
-        // console.log('match props: ',this.props.match.params);
-        // let parsedOrder=JSON.parse(order);
-        // const orderId=String(Object.keys(parsedOrder).pop());
-        const astroLoc=this.db.child(`ordersScheduled/${order}/coords`);
-        astroLoc.on('value',snap=>{
-            let coords=snap.val();
-            if (!isEmpty(coords)) this.setState({coords});
-        });
-        const ordersRef=this.db.child(`orders/${order}`);
-        ordersRef.on('value',snap=>{
-            let order=snap.val();
-            this.setState({orderDetails:order});
-        });
-    }
-    serviceDescription=()=>{
-        const {orderDetails}=this.state;
-        switch (orderDetails.type) {
-            case 'pd':
-                return <DeliveryDesc tasks={orderDetails.delivery} />;
-            case 'cash':
-                return <CashDesc task={[]} />
-            default: return null;
-        }
-    }
+            delivery:[],
+            _status:0,
+            type:''
+         },
+         currentTask: 1,
+         coords:{
+            latitude:0,
+            longitude:0
+         }
+      };
+      this.db=firebase.database().ref();
+   }
+   componentWillMount() {
+      let  {order}=this.props.match.params;
+      // console.log('match props: ',this.props.match.params);
+      // let parsedOrder=JSON.parse(order);
+      // const orderId=String(Object.keys(parsedOrder).pop());
+      const astroLoc=this.db.child(`ordersScheduled/${order}/coords`);
+      astroLoc.on('value',snap=>{
+         let coords=snap.val();
+         if (!isEmpty(coords)) this.setState({coords});
+      });
+      const ordersRef=this.db.child(`orders/${order}`);
+      ordersRef.on('value',snap=>{
+         let order=snap.val();
+         this.setState({orderDetails:order});
+      });
+   }
+   serviceDescription=()=>{
+      const {orderDetails}=this.state;
+      switch (orderDetails.type) {
+         case 'delivery': return <DeliveryDesc tasks={orderDetails} />;
+         case 'cash': return <CashDesc tasks={orderDetails} />
+         default: return null;
+      }
+   }
 
-    render () {
-        const {orderDetails,currentTask,coords}=this.state;
-        const {pickUp}=orderDetails;
-        return (
-            <div>
-                <Col xs={12} md={6}>
-                    <h2>Rastreo de orden</h2>
-                    <Grid>
-                        <Row>
-                            <Col xs={12} md={6}>
-                                <Row style={{paddingBottom:15}}>
-                                    <Col xs={2} sm={2} md={2} lg={2}>
-                                        <FaCheckCircle style={{color:orderDetails._status==1?'green':'gray'}} size='25'/>
-                                    </Col>
-                                    <Col xs={8} sm={8} md={8} lg={8}>
-                                        <h4 style={{fontWeight:'bold'}}>Orden tomada por {orderDetails.astroName}</h4>
-                                    </Col>
-                                    <Col xs={2} sm={2} md={2} lg={2}>
-                                    </Col>
-                                </Row>
-                                <Row style={{paddingBottom:15}}>
-                                    <Col xs={2} sm={2} md={2} lg={2}>
-                                        <FaCheckCircle style={{color:pickUp._status==1?'green':'gray'}} size='25'/>
-                                    </Col>
-                                    <Col xs={8} sm={8} md={8} lg={8}>
-                                        <h4 style={{fontWeight:'bold'}}>Iniciar en {pickUp.place}</h4>
-                                        <h4>
-                                            {pickUp.instructions}<br />
-                                            Cualquier percance comunicate con {pickUp.contactName} al {pickUp.contactPhone}
-                                        </h4>
-                                    </Col>
-                                    <Col xs={2} sm={2} md={2} lg={2}>
-                                    </Col>
-                                </Row>
-
-                                <div>
-                                    {this.serviceDescription()}
-                                </div>
-                            </Col>
-                            <Col xs={12} md={5} >
-                                <Map coords={coords} />
-                            </Col>
+   render () {
+      const {orderDetails,currentTask,coords}=this.state;
+      const {pickUp}=orderDetails;
+      return (
+         <div style={{height:'100vh',overflow:'scroll'}}>
+            <Col xs={12} md={6}>
+               <h2>Rastreo de {orderDetails.type}</h2>
+               <Grid>
+                  <Row>
+                     <Col xs={12} md={6}>
+                        <Row style={{paddingBottom:15}}>
+                           <Col xs={2}>
+                              <FaCheckCircle style={{color:'green'}} size='25'/>
+                           </Col>
+                           <Col xs={8}>
+                              <h4>Tu orden fue recibida</h4>
+                           </Col>
                         </Row>
-                    </Grid>
-                </Col>
-            </div>
-        )
-    }
+                        <Row style={{paddingBottom:15}}>
+                           <Col xs={2}>
+                              <FaCheckCircle style={{color:orderDetails._status==1?'green':'gray'}} size='25'/>
+                           </Col>
+                           <Col xs={8}>
+                              <h4>{orderDetails._status==0?'Tu orden está siendo asignada':`Tu orden fue asignada a ${orderDetails.astroName}`}</h4>
+                              <Link to='#'>Evidencia</Link>
+                           </Col>
+                           {/*<Col xs={2}>
+                              <h5>Evidence</h5>
+                           </Col>*/}
+                        </Row>
+                     <div>
+                        {this.serviceDescription()}
+                     </div>
+                     <Row style={{paddingBottom:15}}>
+                        <Col xs={2}>
+                           <FaCheckCircle style={{color:orderDetails._status==3?'green':'gray'}} size='25'/>
+                        </Col>
+                        <Col xs={8}>
+                           <h4>Tu orden fue completada</h4>
+                        </Col>
+                     </Row>
+                  </Col>
+                  <Col xs={12} md={5} >
+                     <Map coords={coords} />
+                  </Col>
+               </Row>
+            </Grid>
+         </Col>
+      </div>
+   )
+}
 }
 
 export default Tracker;
