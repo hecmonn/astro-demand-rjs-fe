@@ -6,6 +6,7 @@ import isEmpty from 'is-empty';
 import  Nav from '../../Nav';
 import Map from './Map';
 import CashDesc from './Descriptions/CashDesc';
+import ShoppingDesc from './Descriptions/Shopping';
 import DeliveryDesc from './Descriptions/Delivery';
 import {FaCheckCircle} from 'react-icons/fa';
 import {Link} from 'react-router-dom';
@@ -55,6 +56,7 @@ class Tracker extends React.Component {
       switch (orderDetails.type) {
          case 'delivery': return <DeliveryDesc tasks={orderDetails} />;
          case 'cash': return <CashDesc tasks={orderDetails} />
+         case 'shopping': return <ShoppingDesc tasks={orderDetails} />;
          default: return null;
       }
    }
@@ -83,7 +85,6 @@ class Tracker extends React.Component {
                            </Col>
                            <Col xs={8}>
                               <h4>{orderDetails._status==0?'Tu orden está siendo asignada':`Tu orden fue asignada a ${orderDetails.astroName}`}</h4>
-                              <Link to='#'>Evidencia</Link>
                            </Col>
                            {/*<Col xs={2}>
                               <h5>Evidence</h5>

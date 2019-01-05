@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Col,Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {FaTruck,FaAmericanSignLanguageInterpreting} from 'react-icons/fa';
+import {FaTruck,FaAmericanSignLanguageInterpreting,FaShoppingCart} from 'react-icons/fa';
 import df from 'dateformat';
 import {descriptionTranslator,statusTranslator} from '../../lib/helpers';
 
@@ -21,16 +21,17 @@ class ServiceCard extends React.Component {
             {orders.map((r,i)=>{
                let date=df(r.date,'mm/dd HH:MM');
                const {_status,astroName}=r;
-
+               console.log('sc r:',r);
                let description=descriptionTranslator(r.type);
                let {status}=statusTranslator({_status,astroName});
-
                //icon logic
                let icon;
                if(r.type=='delivery') {
                   icon=<FaTruck size={25} className='icon-lg' />;
                }  else if (r.type=='cash'){
                   icon=<FaAmericanSignLanguageInterpreting size={25} className='icon-lg' />;
+               } else if (r.type=='shopping'){
+                  icon=<FaShoppingCart size={25} />
                }
 
                return (

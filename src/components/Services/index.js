@@ -24,7 +24,7 @@ class Services extends React.Component {
                         </Link>
                      </Col>
                      <Col xs={12} md={4}>
-                        <Link to='#' style={{textDecoration:'none',color:'#0F365E'}}>
+                        <Link to='/shopping' style={{textDecoration:'none',color:'#0F365E'}}>
                            <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'50vh',borderColor:'black',flexDirection:'column'}}>
                               <FaShoppingCart size={50} />
                               <h1 style={{textAlign:'center'}}>Shopping</h1>

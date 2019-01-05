@@ -37,7 +37,6 @@ class Delivery extends React.Component {
          }
       };
       this.handleChange=this.handleChange.bind(this);
-      // this.handleSubmit=this.handleSubmit.bind(this);
       this.handleDateChange=this.handleDateChange.bind(this);
    }
    handleChange(e){
@@ -54,7 +53,6 @@ class Delivery extends React.Component {
          this.setState({ order:{...prevOrder,pickUp:{...prevOrder.pickUp, [e.target.name]: e.target.value}}});
       }
    }
-   // this.setState({[e.target.name]:e.target.value})
    getValidationState=(e)=>{
       // e.preventDefault();
    }
@@ -111,7 +109,6 @@ class Delivery extends React.Component {
             {!redirect?
                <form>
                   <FormGroup
-                     controlId="formBasicText"
                      validationState={this.getValidationState()}
                      >
                      <h3>¿Dónde recogemos?</h3>

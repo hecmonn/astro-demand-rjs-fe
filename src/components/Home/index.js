@@ -34,7 +34,6 @@ class Home extends React.Component {
                let userData=snap.val();
                let userVals=Object.values(userData).pop();
                let userId=Object.keys(userData).pop();
-               console.log('userId: ',userId);
                let userObj={
                   ...userVals,
                   userId

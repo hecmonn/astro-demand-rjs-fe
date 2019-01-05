@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Col,Image,Glyphicon} from 'react-bootstrap';
 import {Redirect,Link} from 'react-router-dom';
 import firebase from 'firebase';
-import {FaHome,FaPlusCircle,FaCheckCircle,FaSignOut} from 'react-icons/fa';
+import {FaHome,FaPlusCircle,FaCheckCircle} from 'react-icons/fa';
 
 class SideBar extends React.Component {
    constructor(){

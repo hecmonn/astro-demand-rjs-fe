@@ -9,7 +9,6 @@ class CashDesc extends React.Component {
       return (
          <div>
 
-            {tasks._status==2 &&
                <Row style={{paddingBottom:15}}>
                   <Col xs={2} sm={2} md={2} lg={2}>
                      <FaCheckCircle style={{color:tasks._status==2?'green':'gray'}} size='25'/>
@@ -26,7 +25,6 @@ class CashDesc extends React.Component {
                      }
                   </Col>
                </Row>
-            }
          </div>
       )
    }

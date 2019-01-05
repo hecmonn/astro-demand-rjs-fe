@@ -21,7 +21,11 @@ export function descriptionTranslator(type){
         description={
             type:'Cash Pickup',
         };
-    }
+    } else if (type=='shopping'){
+      description={
+         type:'Shopping'
+      }
+   }
     return description;
 }
 

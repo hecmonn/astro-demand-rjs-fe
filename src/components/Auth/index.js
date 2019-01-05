@@ -63,7 +63,6 @@ class Auth extends React.Component {
                         <h1>Astro Demand Login</h1>
                         <form>
                             <FormGroup
-                                controlId="formBasicText"
                                 validationState={this.getValidationState()}
                                 >
                                 <ControlLabel>Correo electrónico</ControlLabel>
